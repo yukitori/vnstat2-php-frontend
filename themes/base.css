@@ -129,7 +129,7 @@ a:hover { text-decoration: none; }
 }
 
 /* ---- content ----------------------------------------------------------- */
-.content { flex: 1 1 auto; min-width: 0; }
+.content { flex: 1 1 auto; min-width: 0; max-width: 100%; }
 
 .topbar {
     display: flex;
@@ -164,7 +164,7 @@ a:hover { text-decoration: none; }
     color: var(--text-muted);
 }
 
-.main { display: flex; flex-direction: column; gap: 20px; }
+.main { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
 
 /* ---- cards ------------------------------------------------------------- */
 .card {
@@ -173,6 +173,7 @@ a:hover { text-decoration: none; }
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     padding: 20px;
+    min-width: 0;
 }
 .card-title {
     margin: 0 0 14px;
@@ -184,20 +185,19 @@ a:hover { text-decoration: none; }
 
 .graph-card { padding: 16px; }
 .graph {
-    display: flex;
-    justify-content: center;
-    overflow-x: auto;
+    text-align: center;
+    min-width: 0;
 }
 .graph img {
     max-width: 100%;
     height: auto;
-    display: block;
+    display: inline-block;
 }
 
 /* ---- KPI cards --------------------------------------------------------- */
 .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
 }
 .kpi {
@@ -295,6 +295,51 @@ table.data td.empty {
 .footer a { color: var(--text-muted); font-weight: 600; }
 .footer a:hover { color: var(--accent); }
 
+/* ---- theme switcher ---------------------------------------------------- */
+.theme-switch {
+    margin-top: 10px;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+.theme-switch-label {
+    display: block;
+    margin: 0 2px 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+.theme-options { display: flex; flex-direction: column; gap: 2px; }
+.theme-option {
+    display: flex;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 13px;
+    color: var(--text);
+}
+.theme-option:hover { background: var(--surface-2); }
+.theme-option.on {
+    background: var(--accent-weak);
+    color: var(--accent);
+    font-weight: 600;
+}
+/* fixed swatch colours so each option previews its own theme */
+.theme-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 9px;
+    flex: 0 0 auto;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+.theme-swatch-light { background: #6f857f; }
+.theme-swatch-dark  { background: #6f8593; }
+.theme-swatch-red   { background: #a4817d; }
+
 /* ---- responsive -------------------------------------------------------- */
 @media (max-width: 860px) {
     .app { flex-direction: column; padding: 18px 16px 32px; gap: 20px; }
@@ -302,10 +347,17 @@ table.data td.empty {
     .brand { padding: 0 4px 12px; }
     .nav { flex-direction: row; flex-wrap: wrap; }
     .nav-group { flex: 1 1 160px; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-switch { margin-top: 12px; }
+    .theme-options { flex-direction: row; flex-wrap: wrap; }
+    .theme-option { flex: 1 1 auto; justify-content: center; }
+    .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 480px) {
-    .kpi-grid { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: minmax(0, 1fr); }
     .topbar-title { font-size: 19px; }
+    /* tighten the data table so it fits narrow screens without scrolling */
+    .card { padding: 16px 13px; }
+    table.data th, table.data td { padding: 8px 7px; }
+    table.data td { font-size: 13px; }
 }

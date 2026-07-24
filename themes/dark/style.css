@@ -12,11 +12,11 @@
     --text:          #d6d0c5;
     --text-muted:    #a49a8b;
     --heading:       #ece5d7;
-    --accent:        #93a7ba;
-    --accent-weak:   rgba(147, 167, 186, 0.16);
+    --accent:        #8c9ea9;
+    --accent-weak:   rgba(140, 158, 169, 0.16);
     --on-accent:     #26241f;
-    --in:            #8296a8;
-    --out:           #a68d81;
+    --in:            #8c9ea9;
+    --out:           #9a8074;
     --shadow:        0 1px 2px rgba(0, 0, 0, 0.28), 0 10px 28px rgba(0, 0, 0, 0.32);
     --radius:        12px;
     --radius-sm:     8px;

@@ -8,9 +8,9 @@
        'grid_stipple_2'     => array(  62,  57,  51,   0 ),
        'border'             => array(  77,  71,  63,   0 ),
        'text'               => array( 164, 154, 139,   0 ),
-       'rx'                 => array( 130, 150, 168,  30 ),
-       'rx_border'          => array( 130, 150, 168,  10 ),
-       'tx'                 => array( 166, 141, 129,  30 ),
-       'tx_border'          => array( 166, 141, 129,  10 )
+       'rx'                 => array(  91, 110, 122,  64 ),
+       'rx_border'          => array(  91, 110, 122, 127 ),
+       'tx'                 => array( 128, 107,  98,  64 ),
+       'tx_border'          => array( 128, 107,  98, 127 )
      );
 ?>

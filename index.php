@@ -61,6 +61,44 @@
     }
 
 
+    //
+    // theme switcher: one link per available theme (a theme is any
+    // themes/<name>/ directory that provides both style.css and theme.php).
+    // Switching reloads the page with the new style so the server-rendered
+    // graph is recoloured too.
+    //
+    function write_theme_switcher()
+    {
+        global $iface, $page, $graph, $style, $script;
+
+        $themes = array();
+        foreach (glob('themes/*', GLOB_ONLYDIR) as $dir) {
+            if (file_exists("$dir/style.css") && file_exists("$dir/theme.php")) {
+                $themes[] = basename($dir);
+            }
+        }
+        sort($themes);
+        if (count($themes) < 2) {
+            return;
+        }
+
+        $labels = array('light' => 'Light', 'dark' => 'Dark', 'red' => 'Rose');
+
+        print "<div class=\"theme-switch\">\n";
+        print "<span class=\"theme-switch-label\">".T('Theme')."</span>\n";
+        print "<div class=\"theme-options\">\n";
+        foreach ($themes as $t) {
+            $on = ($t == $style) ? " on" : "";
+            $label = isset($labels[$t]) ? $labels[$t] : ucfirst($t);
+            $href = "$script?if=$iface&amp;page=$page&amp;graph=$graph&amp;style=$t";
+            print "<a class=\"theme-option$on\" href=\"$href\">";
+            print "<span class=\"theme-swatch theme-swatch-".htmlspecialchars($t)."\"></span>";
+            print htmlspecialchars($label)."</a>\n";
+        }
+        print "</div>\n</div>\n";
+    }
+
+
     function kbytes_to_string($kb)
     {
 
@@ -213,6 +251,7 @@
       <span class="brand-sub">network traffic</span>
     </div>
     <?php write_side_bar(); ?>
+    <?php write_theme_switcher(); ?>
   </aside>
 
   <main class="content">
