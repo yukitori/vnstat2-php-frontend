@@ -40,6 +40,11 @@
         die('can\'t determine script name!');
     }
 
+    // $script is echoed into href="" attributes, and PHP_SELF/SCRIPT_NAME can
+    // be manipulated via extra path info (e.g. index.php/"><script>...), so
+    // HTML-encode it here to prevent reflected XSS.
+    $script = htmlspecialchars($script, ENT_QUOTES);
+
     $page_list  = array('s','h','d','m');
 
     $graph_list = array('large','small','none');
@@ -107,7 +112,9 @@
         else
         {
             // FIXME: use mode and limit parameter to reduce data that needs to be parsed
-            $fd = popen("$vnstat_bin --json -i $iface", "r");
+            // $iface is already restricted to $iface_list by validate_input();
+            // escapeshellarg() adds defense-in-depth against shell injection.
+            $fd = popen("$vnstat_bin --json -i " . escapeshellarg($iface), "r");
             if (is_resource($fd))
             {
                 $buffer = '';

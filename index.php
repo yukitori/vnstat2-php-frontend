@@ -225,6 +225,12 @@
     // html start
     //
     header('Content-type: text/html; charset=utf-8');
+    // Security hardening headers. The page uses no JavaScript and only
+    // same-origin CSS/images, so a strict policy does not break anything.
+    header("Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'self'; frame-ancestors 'self'");
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Referrer-Policy: no-referrer');
 ?>
 <!DOCTYPE html>
 <html lang="en">
