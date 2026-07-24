@@ -8,8 +8,8 @@
        'grid_stipple_2'     => array(  62,  57,  51,   0 ),
        'border'             => array(  77,  71,  63,   0 ),
        'text'               => array( 164, 154, 139,   0 ),
-       'rx'                 => array( 138, 157, 149,  30 ),
-       'rx_border'          => array( 138, 157, 149,  10 ),
+       'rx'                 => array( 130, 150, 168,  30 ),
+       'rx_border'          => array( 130, 150, 168,  10 ),
        'tx'                 => array( 166, 141, 129,  30 ),
        'tx_border'          => array( 166, 141, 129,  10 )
      );
