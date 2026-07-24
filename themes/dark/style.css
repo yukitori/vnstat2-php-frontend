@@ -1,23 +1,23 @@
 /*
- * Dark theme palette.
+ * Dark theme palette - Morandi (warm charcoal-taupe with a muted sage accent).
  * Layout and components live in themes/base.css; this file only sets colours.
  */
 :root {
-    --bg:            #14161b;
-    --surface:       #1c1f27;
-    --surface-2:     #232733;
-    --surface-3:     #2a2f3c;
-    --border:        #2b303c;
-    --border-strong: #3a4150;
-    --text:          #d6dbe6;
-    --text-muted:    #8c95a6;
-    --heading:       #f1f4fa;
-    --accent:        #5b9dff;
-    --accent-weak:   rgba(91, 157, 255, 0.14);
-    --on-accent:     #0b1220;
-    --in:            #5b9dff;
-    --out:           #35d0a5;
-    --shadow:        0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 28px rgba(0, 0, 0, 0.35);
+    --bg:            #26241f;
+    --surface:       #302d27;
+    --surface-2:     #383430;
+    --surface-3:     #403b34;
+    --border:        #3d3833;
+    --border-strong: #4d473f;
+    --text:          #d6d0c5;
+    --text-muted:    #a49a8b;
+    --heading:       #ece5d7;
+    --accent:        #9fb0a8;
+    --accent-weak:   rgba(159, 176, 168, 0.16);
+    --on-accent:     #26241f;
+    --in:            #97a9a2;
+    --out:           #c6a794;
+    --shadow:        0 1px 2px rgba(0, 0, 0, 0.28), 0 10px 28px rgba(0, 0, 0, 0.32);
     --radius:        12px;
     --radius-sm:     8px;
 }

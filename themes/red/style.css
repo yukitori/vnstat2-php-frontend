@@ -1,23 +1,23 @@
 /*
- * Red theme palette (light surface with a crimson accent).
+ * Red theme palette - Morandi (dusty rose on a soft warm surface).
  * Layout and components live in themes/base.css; this file only sets colours.
  */
 :root {
-    --bg:            #f3eef0;
-    --surface:       #ffffff;
-    --surface-2:     #faf5f6;
-    --surface-3:     #f4ebed;
-    --border:        #ecdfe2;
-    --border-strong: #e0ccd0;
-    --text:          #453a3d;
-    --text-muted:    #9c8a8e;
-    --heading:       #2c2325;
-    --accent:        #b3123b;
-    --accent-weak:   rgba(179, 18, 59, 0.10);
+    --bg:            #ebe3e1;
+    --surface:       #f5efee;
+    --surface-2:     #ede4e2;
+    --surface-3:     #e6dad8;
+    --border:        #ddd0ce;
+    --border-strong: #cebfbc;
+    --text:          #5d534f;
+    --text-muted:    #8f8079;
+    --heading:       #443c39;
+    --accent:        #a4817d;
+    --accent-weak:   rgba(164, 129, 125, 0.14);
     --on-accent:     #ffffff;
-    --in:            #b3123b;
-    --out:           #d98a3d;
-    --shadow:        0 1px 2px rgba(70, 20, 30, 0.05), 0 8px 24px rgba(70, 20, 30, 0.07);
+    --in:            #b3928c;
+    --out:           #9fa78f;
+    --shadow:        0 1px 2px rgba(80, 60, 58, 0.05), 0 8px 24px rgba(80, 60, 58, 0.08);
     --radius:        12px;
     --radius-sm:     8px;
 }

@@ -1,23 +1,23 @@
 /*
- * Light theme palette.
+ * Light theme palette - Morandi (muted warm greige with a soft sage accent).
  * Layout and components live in themes/base.css; this file only sets colours.
  */
 :root {
-    --bg:            #eef1f7;
-    --surface:       #ffffff;
-    --surface-2:     #f5f7fc;
-    --surface-3:     #eef2f9;
-    --border:        #e6eaf2;
-    --border-strong: #d6dcea;
-    --text:          #33415c;
-    --text-muted:    #8695ad;
-    --heading:       #1f2a3d;
-    --accent:        #3b82f6;
-    --accent-weak:   rgba(59, 130, 246, 0.12);
+    --bg:            #e9e5de;
+    --surface:       #f4f1eb;
+    --surface-2:     #ece8e0;
+    --surface-3:     #e3ddd3;
+    --border:        #ded7cb;
+    --border-strong: #cec6b7;
+    --text:          #59544c;
+    --text-muted:    #857c6f;
+    --heading:       #423f39;
+    --accent:        #6f857f;
+    --accent-weak:   rgba(111, 133, 127, 0.15);
     --on-accent:     #ffffff;
-    --in:            #3b82f6;
-    --out:           #10b981;
-    --shadow:        0 1px 2px rgba(26, 44, 82, 0.04), 0 8px 24px rgba(26, 44, 82, 0.06);
+    --in:            #8ba098;
+    --out:           #c1a08f;
+    --shadow:        0 1px 2px rgba(90, 80, 66, 0.05), 0 8px 24px rgba(90, 80, 66, 0.08);
     --radius:        12px;
     --radius-sm:     8px;
 }
