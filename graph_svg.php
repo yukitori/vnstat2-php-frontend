@@ -32,7 +32,7 @@
     {
 	header('Content-type: image/svg+xml');
 	print "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
-	print "<svg width=\"$width\" height=\"$height\" version=\"1.2\" baseProfile=\"tiny\" xmlns=\"http://www.w3.org/2000/svg\">\n";
+	print "<svg width=\"$width\" height=\"$height\" viewBox=\"0 0 $width $height\" preserveAspectRatio=\"xMidYMid meet\" version=\"1.2\" baseProfile=\"tiny\" xmlns=\"http://www.w3.org/2000/svg\">\n";
 	print "<g style=\"shape-rendering: crispEdges\">\n";
     }
 

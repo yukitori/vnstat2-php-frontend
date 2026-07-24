@@ -1,16 +1,16 @@
 <?php
-    // A red colorscheme based on a contribution by Enrico Tröger
+    // Graph colour scheme (red). Kept in sync with the palette in style.css.
     $colorscheme = array(
-         'image_background'   => array( 225, 225, 225,   0 ),
-	 'graph_background'   => array( 220, 220, 230,   0 ),
-	 'graph_background_2' => array( 205, 205, 220,   0 ),
-	 'grid_stipple_1'     => array( 140, 140, 140,   0 ),
-         'grid_stipple_2'     => array( 200, 200, 200,   0 ),
-	 'border'             => array(   0,   0,   0,   0 ),
-	 'text'               => array(   0,   0,   0,   0 ),
-	 'rx'                 => array( 190,  20,  20,  50 ),
-	 'rx_border'	      => array(  80,  40,  40,  90 ),
-	 'tx'	              => array( 130, 130, 130,  50 ),
-	 'tx_border'          => array(  60,  60,  60,  90 )
+         'image_background'   => array( 255, 255, 255,   0 ),
+         'graph_background'   => array( 250, 245, 246,   0 ),
+         'graph_background_2' => array( 244, 235, 237,   0 ),
+         'grid_stipple_1'     => array( 224, 204, 208,   0 ),
+         'grid_stipple_2'     => array( 240, 228, 231,   0 ),
+         'border'             => array( 224, 204, 208,   0 ),
+         'text'               => array( 156, 138, 142,   0 ),
+         'rx'                 => array( 179,  18,  59,  15 ),
+         'rx_border'          => array( 150,  15,  49,   0 ),
+         'tx'                 => array( 217, 138,  61,  15 ),
+         'tx_border'          => array( 190, 116,  47,   0 )
      );
 ?>

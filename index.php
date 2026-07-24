@@ -36,32 +36,28 @@
 
         $p = "&amp;graph=$graph&amp;style=$style";
 
-        print "<ul class=\"iface\">\n";
+        print "<nav class=\"nav\">\n";
         foreach ($iface_list as $if)
         {
-            if ($iface == $if) {
-                print "<li class=\"iface active\">";
-            } else {
-                print "<li class=\"iface\">";
-            }
-            print "<a href=\"$script?if=$if$p\">";
-            if (isset($iface_title[$if]))
-            {
-                print $iface_title[$if];
-            }
-            else
-            {
-                print $if;
-            }
-            print "</a>";
-            print "<ul class=\"page\">\n";
+            $active = ($iface == $if);
+            $name = isset($iface_title[$if]) ? $iface_title[$if] : $if;
+
+            print "<div class=\"nav-group".($active ? " active" : "")."\">\n";
+            print "<a class=\"nav-iface\" href=\"$script?if=$if$p\">";
+            print "<span class=\"nav-iface-name\">".htmlspecialchars($name)."</span>";
+            print "<span class=\"nav-iface-id\">$if</span>";
+            print "</a>\n";
+
+            print "<ul class=\"nav-pages\">\n";
             foreach ($page_list as $pg)
             {
-                print "<li class=\"page\"><a href=\"$script?if=$if$p&amp;page=$pg\">".$page_title[$pg]."</a></li>\n";
+                $on = ($active && $page == $pg) ? " class=\"on\"" : "";
+                print "<li><a$on href=\"$script?if=$if$p&amp;page=$pg\">".$page_title[$pg]."</a></li>\n";
             }
-            print "</ul></li>\n";
+            print "</ul>\n";
+            print "</div>\n";
         }
-        print "</ul>\n";
+        print "</nav>\n";
     }
 
 
@@ -89,6 +85,17 @@
         return sprintf("%0.2f %s", ($kb/$scale),$units[$ui]);
     }
 
+    //
+    // format a byte value as a value/unit pair so the two can be styled
+    // independently (large figure + small unit)
+    //
+    function kbytes_to_parts($kb)
+    {
+        $s = kbytes_to_string($kb);
+        $parts = explode(' ', $s, 2);
+        return array($parts[0], isset($parts[1]) ? $parts[1] : '');
+    }
+
     function write_summary()
     {
         global $summary,$top,$day,$hour,$month;
@@ -96,51 +103,52 @@
         $trx = $summary['totalrx']*1024+$summary['totalrxk'];
         $ttx = $summary['totaltx']*1024+$summary['totaltxk'];
 
-        //
-        // build array for write_data_table
-        //
-
-        $sum = array();
+        $cards = array();
 
         if (count($day) > 0 && count($hour) > 0 && count($month) > 0) {
-            $sum[0]['act'] = 1;
-            $sum[0]['label'] = T('This hour');
-            $sum[0]['rx'] = $hour[0]['rx'];
-            $sum[0]['tx'] = $hour[0]['tx'];
-
-            $sum[1]['act'] = 1;
-            $sum[1]['label'] = T('This day');
-            $sum[1]['rx'] = $day[0]['rx'];
-            $sum[1]['tx'] = $day[0]['tx'];
-
-            $sum[2]['act'] = 1;
-            $sum[2]['label'] = T('This month');
-            $sum[2]['rx'] = $month[0]['rx'];
-            $sum[2]['tx'] = $month[0]['tx'];
-
-            $sum[3]['act'] = 1;
-            $sum[3]['label'] = T('All time');
-            $sum[3]['rx'] = $trx;
-            $sum[3]['tx'] = $ttx;
+            $cards[] = array('label' => T('This hour'),  'rx' => $hour[0]['rx'],  'tx' => $hour[0]['tx']);
+            $cards[] = array('label' => T('This day'),   'rx' => $day[0]['rx'],   'tx' => $day[0]['tx']);
+            $cards[] = array('label' => T('This month'), 'rx' => $month[0]['rx'], 'tx' => $month[0]['tx']);
+            $cards[] = array('label' => T('All time'),   'rx' => $trx,            'tx' => $ttx);
         }
 
-        write_data_table(T('Summary'), $sum);
-        print "<br/>\n";
+        if (count($cards) > 0) {
+            print "<div class=\"kpi-grid\">\n";
+            foreach ($cards as $c)
+            {
+                list($tval, $tunit) = kbytes_to_parts($c['rx'] + $c['tx']);
+                $rx = kbytes_to_string($c['rx']);
+                $tx = kbytes_to_string($c['tx']);
+                print "<div class=\"kpi\">\n";
+                print "  <div class=\"kpi-label\">".$c['label']."</div>\n";
+                print "  <div class=\"kpi-total\"><span class=\"num\">$tval</span> <span class=\"unit\">$tunit</span></div>\n";
+                print "  <div class=\"kpi-io\">\n";
+                print "    <span class=\"io\"><span class=\"dot in\"></span>".T('In')." <b>$rx</b></span>\n";
+                print "    <span class=\"io\"><span class=\"dot out\"></span>".T('Out')." <b>$tx</b></span>\n";
+                print "  </div>\n";
+                print "</div>\n";
+            }
+            print "</div>\n";
+        }
+
         write_data_table(T('Top 10 days'), $top);
     }
 
 
     function write_data_table($caption, $tab)
     {
-        print "<table width=\"100%\" cellspacing=\"0\">\n";
-        print "<caption>$caption</caption>\n";
-        print "<tr>";
-        print "<th class=\"label\" style=\"width:120px;\">&nbsp;</th>";
-        print "<th class=\"label\">".T('In')."</th>";
-        print "<th class=\"label\">".T('Out')."</th>";
-        print "<th class=\"label\">".T('Total')."</th>";
-        print "</tr>\n";
+        print "<section class=\"card\">\n";
+        print "<h2 class=\"card-title\">".$caption."</h2>\n";
+        print "<div class=\"table-wrap\">\n";
+        print "<table class=\"data\">\n";
+        print "<thead><tr>";
+        print "<th class=\"label\">&nbsp;</th>";
+        print "<th class=\"num\"><span class=\"dot in\"></span>".T('In')."</th>";
+        print "<th class=\"num\"><span class=\"dot out\"></span>".T('Out')."</th>";
+        print "<th class=\"num total\">".T('Total')."</th>";
+        print "</tr></thead>\n<tbody>\n";
 
+        $rows = 0;
         for ($i=0; $i<count($tab); $i++)
         {
             if ($tab[$i]['act'] == 1)
@@ -149,47 +157,75 @@
                 $rx = kbytes_to_string($tab[$i]['rx']);
                 $tx = kbytes_to_string($tab[$i]['tx']);
                 $total = kbytes_to_string($tab[$i]['rx']+$tab[$i]['tx']);
-                $id = ($i & 1) ? 'odd' : 'even';
                 print "<tr>";
-                print "<td class=\"label_$id\">$t</td>";
-                print "<td class=\"numeric_$id\">$rx</td>";
-                print "<td class=\"numeric_$id\">$tx</td>";
-                print "<td class=\"numeric_$id\">$total</td>";
+                print "<td class=\"label\">$t</td>";
+                print "<td class=\"num\">$rx</td>";
+                print "<td class=\"num\">$tx</td>";
+                print "<td class=\"num total\">$total</td>";
                 print "</tr>\n";
+                $rows++;
              }
         }
-        print "</table>\n";
+        if ($rows == 0) {
+            print "<tr><td class=\"empty\" colspan=\"4\">".T('no data available')."</td></tr>\n";
+        }
+        print "</tbody></table>\n";
+        print "</div>\n</section>\n";
     }
 
     get_vnstat_data();
+
+    $page_heading = array(
+        's' => T('Summary'),
+        'h' => T('Last 24 hours'),
+        'd' => T('Last 30 days'),
+        'm' => T('Last 12 months'),
+    );
+    $iface_name = isset($iface_title[$iface]) ? $iface_title[$iface] : $iface;
 
     //
     // html start
     //
     header('Content-type: text/html; charset=utf-8');
-    print '<?xml version="1.0"?>';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>vnStat - PHP frontend</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>vnStat &middot; <?php echo htmlspecialchars($iface_name); ?></title>
+  <link rel="stylesheet" type="text/css" href="themes/base.css"/>
   <link rel="stylesheet" type="text/css" href="themes/<?php echo $style ?>/style.css"/>
 </head>
 <body>
 
-<div id="wrap">
-  <div id="sidebar"><?php write_side_bar(); ?></div>
-   <div id="content">
-    <div id="header"><?php print T('Traffic data for').(isset($iface_title[$iface]) ? $iface_title[$iface] : '')." ($iface)";?></div>
-    <div id="main">
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">vnStat</span>
+      <span class="brand-sub">network traffic</span>
+    </div>
+    <?php write_side_bar(); ?>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <h1 class="topbar-title">
+        <span class="topbar-iface"><?php echo htmlspecialchars($iface_name); ?></span>
+        <span class="topbar-id"><?php echo htmlspecialchars($iface); ?></span>
+      </h1>
+      <div class="topbar-sub"><?php echo $page_heading[$page]; ?></div>
+    </header>
+
+    <div class="main">
     <?php
     $graph_params = "if=$iface&amp;page=$page&amp;style=$style";
-    if ($page != 's')
-        if ($graph_format == 'svg') {
-	     print "<object type=\"image/svg+xml\" width=\"692\" height=\"297\" data=\"graph_svg.php?$graph_params\"></object>\n";
-        } else {
-	     print "<img src=\"graph.php?$graph_params\" alt=\"graph\"/>\n";
-        }
+    if ($page != 's') {
+        $src = ($graph_format == 'svg') ? "graph_svg.php?$graph_params" : "graph.php?$graph_params";
+        print "<section class=\"card graph-card\">\n";
+        print "  <div class=\"graph\"><img src=\"$src\" alt=\"".T('Traffic data for')." $iface\"/></div>\n";
+        print "</section>\n";
+    }
 
     if ($page == 's')
     {
@@ -209,8 +245,12 @@
     }
     ?>
     </div>
-    <div id="footer"><a href="http://www.sqweek.com/">vnStat PHP frontend</a> 2.0.0 - &copy;2006-2011 Bjorge Dijkstra (bjd _at_ jooz.net)</div>
-  </div>
+
+    <footer class="footer">
+      <a href="http://www.sqweek.com/">vnStat PHP frontend</a> 2.0.0
+      &middot; &copy;2006-2011 Bjorge Dijkstra
+    </footer>
+  </main>
 </div>
 
 </body></html>

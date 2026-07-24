@@ -1,0 +1,311 @@
+/*
+ * vnStat PHP frontend - shared base stylesheet
+ *
+ * Layout, typography and component styling are defined here once and shared
+ * by every theme. A theme only needs to supply a colour palette by overriding
+ * the CSS custom properties declared in the :root block below (see the
+ * style.css in each theme directory). This keeps the individual themes tiny
+ * and guarantees a consistent, elegant look across all of them.
+ */
+
+/* ---- default palette (light) : themes override these ------------------- */
+:root {
+    --bg:            #f4f6fb;
+    --surface:       #ffffff;
+    --surface-2:     #f6f8fc;
+    --surface-3:     #eef2f9;
+    --border:        #e5e9f2;
+    --border-strong: #d7deea;
+    --text:          #33415c;
+    --text-muted:    #8695ad;
+    --heading:       #1f2a3d;
+    --accent:        #3b82f6;
+    --accent-weak:   rgba(59, 130, 246, 0.12);
+    --on-accent:     #ffffff;
+    --in:            #3b82f6;
+    --out:           #10b981;
+    --shadow:        0 1px 2px rgba(26, 44, 82, 0.04), 0 8px 24px rgba(26, 44, 82, 0.06);
+    --radius:        12px;
+    --radius-sm:     8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* ---- app shell --------------------------------------------------------- */
+.app {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 28px 24px 40px;
+    gap: 28px;
+}
+
+/* ---- sidebar ----------------------------------------------------------- */
+.sidebar {
+    flex: 0 0 210px;
+    position: sticky;
+    top: 28px;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 12px 18px;
+}
+.brand-mark {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--heading);
+}
+.brand-sub {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.nav { display: flex; flex-direction: column; gap: 6px; }
+
+.nav-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.nav-iface {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 14px;
+    color: var(--heading);
+}
+.nav-iface-name { font-weight: 600; font-size: 13.5px; }
+.nav-iface-id {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.nav-group.active .nav-iface { background: var(--accent-weak); }
+.nav-group.active .nav-iface-name { color: var(--accent); }
+
+.nav-pages { list-style: none; margin: 0; padding: 0; display: none; }
+.nav-group.active .nav-pages { display: block; border-top: 1px solid var(--border); }
+
+.nav-pages a {
+    display: block;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-left: 3px solid transparent;
+    text-transform: capitalize;
+}
+.nav-pages a:hover { color: var(--text); background: var(--surface-2); }
+.nav-pages a.on {
+    color: var(--accent);
+    font-weight: 600;
+    background: var(--surface-2);
+    border-left-color: var(--accent);
+}
+
+/* ---- content ----------------------------------------------------------- */
+.content { flex: 1 1 auto; min-width: 0; }
+
+.topbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 20px;
+}
+.topbar-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--heading);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.topbar-id {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.topbar-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.main { display: flex; flex-direction: column; gap: 20px; }
+
+/* ---- cards ------------------------------------------------------------- */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+.card-title {
+    margin: 0 0 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--heading);
+    letter-spacing: -0.01em;
+}
+
+.graph-card { padding: 16px; }
+.graph {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+.graph img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ---- KPI cards --------------------------------------------------------- */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+.kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+}
+.kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+.kpi-total {
+    margin: 8px 0 12px;
+    color: var(--heading);
+    line-height: 1.1;
+}
+.kpi-total .num { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+.kpi-total .unit { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.kpi-io {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+.kpi-io b { color: var(--text); font-weight: 600; }
+
+/* ---- legend dots ------------------------------------------------------- */
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: baseline;
+}
+.dot.in  { background: var(--in); }
+.dot.out { background: var(--out); }
+
+/* ---- data table -------------------------------------------------------- */
+.table-wrap { overflow-x: auto; }
+table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+}
+table.data th,
+table.data td {
+    padding: 9px 14px;
+    text-align: right;
+    white-space: nowrap;
+}
+table.data th {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-strong);
+}
+table.data th.label,
+table.data td.label {
+    text-align: left;
+    color: var(--text);
+    font-weight: 500;
+}
+table.data tbody td {
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+}
+table.data tbody tr:last-child td { border-bottom: none; }
+table.data tbody tr:hover td { background: var(--surface-2); }
+table.data td.total { color: var(--text); font-weight: 600; }
+table.data td.empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 28px 14px;
+    font-style: italic;
+}
+
+/* ---- footer ------------------------------------------------------------ */
+.footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+.footer a { color: var(--text-muted); font-weight: 600; }
+.footer a:hover { color: var(--accent); }
+
+/* ---- responsive -------------------------------------------------------- */
+@media (max-width: 860px) {
+    .app { flex-direction: column; padding: 18px 16px 32px; gap: 20px; }
+    .sidebar { position: static; width: 100%; flex-basis: auto; }
+    .brand { padding: 0 4px 12px; }
+    .nav { flex-direction: row; flex-wrap: wrap; }
+    .nav-group { flex: 1 1 160px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .kpi-grid { grid-template-columns: 1fr; }
+    .topbar-title { font-size: 19px; }
+}

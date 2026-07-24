@@ -80,7 +80,7 @@
 	imagefilledrectangle($im,$xlm,$ytm,$iw-$xrm,$ih-$ybm, $cl['background']);
 
 	$x_step = ($iw - $xlm - $xrm) / 12;
-	$depth = ($x_step / 8) + 4;
+	$depth = (($x_step / 8) + 4) * SVG_DEPTH_SCALING;
 	imagefilledpolygon($im, array($xlm, $ytm, $xlm, $ih - $ybm, $xlm - $depth, $ih - $ybm + $depth, $xlm - $depth, $ytm + $depth), 4, $cl['background_2']);
 	imagefilledpolygon($im, array($xlm, $ih - $ybm, $xlm - $depth, $ih - $ybm + $depth, $iw - $xrm - $depth, $ih - $ybm  + $depth, $iw - $xrm, $ih - $ybm), 4, $cl['background_2']);
 
@@ -108,7 +108,7 @@
         $x_step = ($iw - $xlm - $xrm) / ($x_ticks ?: 1);
         $y_step = ($ih - $ytm - $ybm) / $y_ticks;
 
-	$depth = 10;//($x_step / 8) + 4;
+	$depth = 10 * SVG_DEPTH_SCALING;//($x_step / 8) + 4;
 
         $ls = array($cl['grid_stipple_1'],$cl['grid_stipple_2']);
         imagesetstyle($im, $ls);
@@ -201,7 +201,7 @@
         	$x = $xlm + ($i * $x_step);
         	$y = $ytm + ($ih - $ytm - $ybm) - (($data[$i]['rx'] - $offset) / $sf);
 
-		$depth = $x_step / 8;
+		$depth = ($x_step / 8) * SVG_DEPTH_SCALING;
 		$space = 0;
 
 		$x1 = $x;

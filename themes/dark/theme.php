@@ -1,16 +1,16 @@
 <?php
-    // A dark colorscheme based on a contribution by Mart Visser
+    // Graph colour scheme (dark). Kept in sync with the palette in style.css.
     $colorscheme = array(
-       'image_background'   => array(  36,  36,  36,   0 ),
-       'graph_background'   => array( 220, 220, 230,   0 ),
-       'graph_background_2' => array( 205, 205, 220,   0 ),
-       'grid_stipple_1'     => array( 140, 140, 140,   0 ),
-       'grid_stipple_2'     => array( 200, 200, 200,   0 ),
-       'border'             => array(  71,  71,  71,   0 ),
-       'text'               => array(  255,  255,  255,   0 ),
-       'rx'                 => array(  10, 180,  10,  50 ),
-       'rx_border'          => array(  0, 120,  0,  90 ),
-       'tx'                  => array( 130, 130, 130,  50 ),
-       'tx_border'          => array(  60,  60,  60,  90 )
+       'image_background'   => array(  28,  31,  39,   0 ),
+       'graph_background'   => array(  35,  39,  51,   0 ),
+       'graph_background_2' => array(  30,  33,  43,   0 ),
+       'grid_stipple_1'     => array(  58,  65,  80,   0 ),
+       'grid_stipple_2'     => array(  43,  48,  60,   0 ),
+       'border'             => array(  58,  65,  80,   0 ),
+       'text'               => array( 140, 149, 166,   0 ),
+       'rx'                 => array(  91, 157, 255,  15 ),
+       'rx_border'          => array(  91, 157, 255,   0 ),
+       'tx'                 => array(  53, 208, 165,  15 ),
+       'tx_border'          => array(  53, 208, 165,   0 )
      );
 ?>

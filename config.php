@@ -76,7 +76,8 @@
     // Default theme
     define('DEFAULT_COLORSCHEME', 'light');
     
-    // SVG Depth scaling factor
-    define('SVG_DEPTH_SCALING', 1);
+    // Graph bar depth (3D isometric effect) scaling factor.
+    // 0 draws clean flat bars (default); set to 1 for the classic 3D look.
+    define('SVG_DEPTH_SCALING', 0);
 
 ?>
