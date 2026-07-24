@@ -194,8 +194,15 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>vnStat &middot; <?php echo htmlspecialchars($iface_name); ?></title>
-  <link rel="stylesheet" type="text/css" href="themes/base.css"/>
-  <link rel="stylesheet" type="text/css" href="themes/<?php echo $style ?>/style.css"/>
+<?php
+    // Cache-bust stylesheets with their file modification time so browsers
+    // always re-fetch after a theme is updated (avoids serving a stale
+    // cached style.css from a previous version).
+    $base_v  = @filemtime('themes/base.css');
+    $theme_v = @filemtime("themes/$style/style.css");
+?>
+  <link rel="stylesheet" type="text/css" href="themes/base.css?v=<?php echo $base_v; ?>"/>
+  <link rel="stylesheet" type="text/css" href="themes/<?php echo $style ?>/style.css?v=<?php echo $theme_v; ?>"/>
 </head>
 <body>
 
