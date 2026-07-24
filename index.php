@@ -89,7 +89,7 @@
         print "<div class=\"theme-options\">\n";
         foreach ($themes as $t) {
             $on = ($t == $style) ? " on" : "";
-            $label = isset($labels[$t]) ? $labels[$t] : ucfirst($t);
+            $label = T(isset($labels[$t]) ? $labels[$t] : ucfirst($t));
             $href = "$script?if=$iface&amp;page=$page&amp;graph=$graph&amp;style=$t";
             print "<a class=\"theme-option$on\" href=\"$href\">";
             print "<span class=\"theme-swatch theme-swatch-".htmlspecialchars($t)."\"></span>";

@@ -2,6 +2,9 @@
 
 // sidebar labels
 $L['Theme'] = 'Theme';
+$L['Light'] = 'Light';
+$L['Dark'] = 'Dark';
+$L['Rose'] = 'Rose';
 $L['summary'] = 'summary';
 $L['hours'] = 'hours';
 $L['days'] = 'days';
