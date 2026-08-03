@@ -40,10 +40,62 @@
                 break;
             }
 
-            $out .= expand_time_format($format[$i], $timestamp);
+            //
+            // padding flags: %-d drops the padding, %_d pads with spaces and
+            // %0e pads with zeroes
+            //
+            $flag = '';
+            if (strpos('-_0', $format[$i]) !== false && ($i + 1) < $len)
+            {
+                $flag = $format[$i];
+                $i++;
+            }
+
+            $expanded = expand_time_format($format[$i], $timestamp);
+
+            $out .= ($flag == '') ? $expanded : pad_time_format($flag, $expanded);
         }
 
         return $out;
+    }
+
+
+    //
+    // repad an expanded number, the width to pad to is the one the conversion
+    // used itself. Names and the conversions that expand to a whole date or
+    // time are left alone.
+    //
+    function pad_time_format($flag, $value)
+    {
+        if (!preg_match('/^[+-]?[ 0-9]+$/', $value))
+        {
+            return $value;
+        }
+
+        // keep the sign of a timezone offset out of the padding
+        $sign = '';
+        if ($value != '' && ($value[0] == '+' || $value[0] == '-'))
+        {
+            $sign = $value[0];
+            $value = substr($value, 1);
+        }
+
+        $width = strlen($value);
+        $bare = ltrim($value, ' 0');
+
+        if ($bare == '')
+        {
+            $bare = '0';
+        }
+
+        switch ($flag)
+        {
+            case '-': return $sign.$bare;
+            case '_': return $sign.str_pad($bare, $width, ' ', STR_PAD_LEFT);
+            case '0': return $sign.str_pad($bare, $width, '0', STR_PAD_LEFT);
+        }
+
+        return $sign.$value;
     }
 
 
