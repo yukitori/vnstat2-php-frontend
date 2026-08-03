@@ -33,9 +33,16 @@ themes/base.css and only define their own palette in themes/<name>/style.css;
 themes/<name>/theme.php holds the matching colours for the graph images
 drawn by graph.php and graph_svg.php.
 
-The theme can be switched from the sidebar, or by adding style=light or
-style=dark to the url. The theme used when nothing is selected is set with
-DEFAULT_COLORSCHEME in config.php.
+On top of those there is 'auto', which loads the light palette and lets the
+dark one take over when the browser reports the device is in dark mode. It
+needs no javascript, so the page never shows up in the wrong palette first.
+The graph images can't follow the device though, they are drawn on the
+server: with 'auto' they are drawn in the light colours, which only matters
+when $graph_format is set to svg or png.
+
+The theme can be switched from the sidebar, or by adding style=auto,
+style=light or style=dark to the url. The theme used when nothing is
+selected is set with DEFAULT_COLORSCHEME in config.php.
 
 The webfonts the themes use are served from the fonts/ directory, so the
 frontend does not talk to any third party.

@@ -1,0 +1,10 @@
+/*
+ * Auto theme - follows the appearance the device is set to.
+ *
+ * The light palette is loaded always, the dark one only when the browser
+ * reports that the device is in dark mode, and being loaded last it wins.
+ * No javascript involved, so the page never renders in the wrong palette
+ * first.
+ */
+@import url("../light/style.css");
+@import url("../dark/style.css") (prefers-color-scheme: dark);

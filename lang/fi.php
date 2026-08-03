@@ -32,6 +32,7 @@ $L['bytes out'] = 'tavua ulos';
 // interface labels
 $L['Traffic statistics'] = 'Liikennetilastot';
 $L['Appearance'] = 'Ulkoasu';
+$L['Auto'] = 'Auto';
 $L['Light'] = 'Vaalea';
 $L['Dark'] = 'Tumma';
 $L['Updated'] = 'Päivitetty';

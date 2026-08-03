@@ -32,6 +32,7 @@ $L['bytes out'] = 'bajta poslano';
 // interface labels
 $L['Traffic statistics'] = 'Statistika prometa';
 $L['Appearance'] = 'Izgled';
+$L['Auto'] = 'Auto';
 $L['Light'] = 'Svijetlo';
 $L['Dark'] = 'Tamno';
 $L['Updated'] = 'Ažurirano';

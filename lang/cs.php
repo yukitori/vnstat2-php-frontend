@@ -32,6 +32,7 @@ $L['bytes out'] = 'bytů odesláno';
 // interface labels
 $L['Traffic statistics'] = 'Statistiky provozu';
 $L['Appearance'] = 'Vzhled';
+$L['Auto'] = 'Auto';
 $L['Light'] = 'Světlý';
 $L['Dark'] = 'Tmavý';
 $L['Updated'] = 'Aktualizováno';

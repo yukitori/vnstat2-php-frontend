@@ -32,6 +32,7 @@ $L['bytes out'] = 'bytes saida';
 // interface labels
 $L['Traffic statistics'] = 'Estatisticas de trafego';
 $L['Appearance'] = 'Aparencia';
+$L['Auto'] = 'Auto';
 $L['Light'] = 'Claro';
 $L['Dark'] = 'Escuro';
 $L['Updated'] = 'Atualizado';

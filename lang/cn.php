@@ -32,6 +32,7 @@ $L['bytes out'] = '流出bytes';
 // interface labels
 $L['Traffic statistics'] = '流量统计';
 $L['Appearance'] = '外观';
+$L['Auto'] = '自动';
 $L['Light'] = '浅色';
 $L['Dark'] = '深色';
 $L['Updated'] = '更新于';

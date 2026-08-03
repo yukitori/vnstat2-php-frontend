@@ -32,6 +32,7 @@ $L['bytes out'] = 'kimenő bájtok';
 // interface labels
 $L['Traffic statistics'] = 'Forgalmi statisztika';
 $L['Appearance'] = 'Megjelenés';
+$L['Auto'] = 'Auto';
 $L['Light'] = 'Világos';
 $L['Dark'] = 'Sötét';
 $L['Updated'] = 'Frissítve';

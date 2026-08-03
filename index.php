@@ -28,7 +28,7 @@
 
     require "./themes/$style/theme.php";
 
-    $theme_list = array('light', 'dark');
+    $theme_list = array('auto', 'light', 'dark');
 
     // config.php files predating the built-in bar chart don't set this
     if (!isset($graph_format))
@@ -148,10 +148,11 @@
         print "<div class=\"appearance\">\n";
         print "<span class=\"appearance-label\">".e(T('Appearance'))."</span>\n";
         print "<div class=\"switch\">\n";
+        $theme_label = array('auto' => T('Auto'), 'light' => T('Light'), 'dark' => T('Dark'));
         foreach ($theme_list as $theme)
         {
             $class = ($theme == $style) ? 'switch-opt on' : 'switch-opt';
-            $label = ($theme == 'dark') ? T('Dark') : T('Light');
+            $label = isset($theme_label[$theme]) ? $theme_label[$theme] : $theme;
             print "<a class=\"$class\" href=\"".page_link(array('style' => $theme))."\">".e($label)."</a>\n";
         }
         print "</div>\n";

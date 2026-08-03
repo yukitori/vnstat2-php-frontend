@@ -77,8 +77,9 @@
     // Font to use for SVG graphs
     define('SVG_FONT', 'Verdana');
 
-    // Default theme, one of the directories in themes/ ('light' or 'dark')
-    define('DEFAULT_COLORSCHEME', 'light');
+    // Default theme, one of the directories in themes/. 'auto' follows the
+    // appearance the device is set to, 'light' and 'dark' are fixed.
+    define('DEFAULT_COLORSCHEME', 'auto');
     
     // SVG Depth scaling factor
     define('SVG_DEPTH_SCALING', 1);
