@@ -29,6 +29,14 @@ $L['Traffic data for'] = 'Forgalmi adatok: ';
 $L['bytes in'] = 'bejövő bájtok';
 $L['bytes out'] = 'kimenő bájtok';
 
+// interface labels
+$L['Traffic statistics'] = 'Forgalmi statisztika';
+$L['Appearance'] = 'Megjelenés';
+$L['Light'] = 'Világos';
+$L['Dark'] = 'Sötét';
+$L['Updated'] = 'Frissítve';
+$L['%s traffic'] = 'Forgalom: %s';
+
 // date formats
 $L['datefmt_days'] = '%d %B';
 $L['datefmt_days_img'] = '%d';

@@ -24,7 +24,22 @@ to suit your situation and your good to go. The various options are
 explained in config.php.
 
 
-3. LICENSE
+3. THEMES
+
+Two themes are included, 'light' and 'dark'. Both share the layout in
+themes/base.css and only define their own palette in themes/<name>/style.css;
+themes/<name>/theme.php holds the matching colours for the graph images
+drawn by graph.php and graph_svg.php.
+
+The theme can be switched from the sidebar, or by adding style=light or
+style=dark to the url. The theme used when nothing is selected is set with
+DEFAULT_COLORSCHEME in config.php.
+
+The webfonts the themes use are served from the fonts/ directory, so the
+frontend does not talk to any third party.
+
+
+4. LICENSE
 
 vnstat PHP frontend 2.0.0
 Copyright (c)2006-2011  Bjorge Dijkstra (bjd@jooz.net)
@@ -45,7 +60,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
 NOTE:
-  The Truetype font file VeraBd.ttf is copyright by Bitstream Inc. 
+  The Truetype font file VeraBd.ttf is copyright by Bitstream Inc.
   See vera_copyright.txt for more information.
+
+  The webfonts in fonts/ (Cormorant Garamond, Lora and Noto Serif SC) are
+  licensed under the SIL Open Font License 1.1. See fonts/OFL.txt.
 
 

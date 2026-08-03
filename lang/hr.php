@@ -29,6 +29,14 @@ $L['Traffic data for'] = 'Promet za';
 $L['bytes in'] = 'bajta primljeno';
 $L['bytes out'] = 'bajta poslano';
 
+// interface labels
+$L['Traffic statistics'] = 'Statistika prometa';
+$L['Appearance'] = 'Izgled';
+$L['Light'] = 'Svijetlo';
+$L['Dark'] = 'Tamno';
+$L['Updated'] = 'Ažurirano';
+$L['%s traffic'] = 'Promet %s';
+
 // date formats
 $L['datefmt_days'] = '%d. %m'; 
 $L['datefmt_days_img'] = '%d';

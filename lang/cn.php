@@ -29,6 +29,14 @@ $L['Traffic data for'] = '统计的网络：';
 $L['bytes in'] = '流入bytes';
 $L['bytes out'] = '流出bytes';
 
+// interface labels
+$L['Traffic statistics'] = '流量统计';
+$L['Appearance'] = '外观';
+$L['Light'] = '浅色';
+$L['Dark'] = '深色';
+$L['Updated'] = '更新于';
+$L['%s traffic'] = '%s流量';
+
 // date formats
 $L['datefmt_days'] = '%B%d日';
 $L['datefmt_days_img'] = '%d';

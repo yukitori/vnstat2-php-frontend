@@ -29,6 +29,14 @@ $L['Traffic data for'] = 'Data verkeer voor';
 $L['bytes in'] = 'bytes in';
 $L['bytes out'] = 'bytes uit';
 
+// interface labels
+$L['Traffic statistics'] = 'Verkeersstatistieken';
+$L['Appearance'] = 'Weergave';
+$L['Light'] = 'Licht';
+$L['Dark'] = 'Donker';
+$L['Updated'] = 'Bijgewerkt';
+$L['%s traffic'] = 'Verkeer %s';
+
 // date formats
 $L['datefmt_days'] = '%d %B';
 $L['datefmt_days_img'] = '%d';

@@ -1,183 +1,27 @@
-body 
-{
-    margin: 0;
-    padding: 0;
-}
+/*
+ * Light theme - warm paper palette with muted sage/clay traffic colours.
+ * The layout lives in themes/base.css, this file only sets the palette.
+ */
+@import url("../base.css");
 
-a[href]:link,
-a[href]:visited {
-    color: #00f;
-    text-decoration: none;
-}
-a[href]:hover,
-a[href]:active,
-a[href]:focus {
-    color: #c00;
-    text-decoration: none;
-}
+:root
+{
+    color-scheme: light;
 
-#wrap
-{
-   xwidth: 868px;
-}
+    --bg: #F1EFEB;
+    --surface: #FAF9F7;
+    --sunk: #ECE9E4;
 
-#sidebar
-{
-    width: 160px;
-    border-right: 1px solid #99b;
-    border-collapse: collapse;
-    float: left;
-}
+    --line: #D9D3CB;
+    --line-soft: #E7E2DB;
 
-#sidebar ul.iface
-{
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid #99b;    
-    color: #000;
-    background-color: #eef;
-}
+    --text: #38352F;
+    --muted: #6F6960;
+    --faint: #7E7870;
 
-#sidebar li.iface ul
-{
-    display: none;
-}
-#sidebar li.iface.active ul
-{
-    display: block;
-}
-#sidebar li.iface:hover ul
-{
-    display: block;
-}
-#sidebar li.iface
-{
-    margin: 2px;
-    padding: 0;
-    list-style-type: none;
-    font-size: 12px;
-    font-weight: bold;
-    xborder-top: 1px solid #99b;
-    border-bottom: 1px solid #99b;
-}
+    --rx: #8D9E8F;
+    --tx: #BC9A8C;
+    --accent: #8D9E8F;
 
-#sidebar a
-{
-    font-family: 'Trebuchet MS', Verdana, sans-serif;
-    font-size: 1em;
-    font-weight: bold;
-}
-
-#sidebar ul.page
-{
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid #99b;
-}
-
-#sidebar li.page 
-{
-    margin: 0;
-    padding: 4px;
-    border: none;
-    list-style-type: none;
-    font-family: 'Trebuchet MS', Verdana, sans-serif;
-    font-size: 0.75em;
-    font-weight: normal;
-    text-align: right;
-    color: #000;    
-    background-color: #fff;
-}
-
-#content
-{
-    margin-left: 160px;
-    width: 720px;
-}
-
-
-#header
-{
-    padding: 0px 8px 0px 8px;
-    border-width: 1px;
-    border-style: solid solid solid solid;
-    border-color: #99b;
-    border-collapse: collapse;
-    color: #000;    
-    background-color: #eef;
-    font-family: 'Trebuchet MS', Verdana, sans-serif;
-    font-size: 1em;
-    font-weight: bold;    
-    text-align: center;
-}
-
-#footer
-{
-    padding: 2px 8px 2px 8px;
-    border: 1px solid #99b;
-    border-collapse: collapse;
-    color: #000;    
-    background-color: #eef;
-    font-family: 'Trebuchet MS', Verdana, sans-serif;
-    font-size: 0.65em;
-    font-weight: bold;    
-    text-align: center;
-}
-
-#main
-{
-    padding: 8px;
-    border-left: 1px solid #99b;
-    border-right: 1px solid #99b;
-    border-bottom: 1px solid #99b;
-    border-collapse: collapse;
-}
-
-#main td
-{
-    font-family: 'Trebuchet MS', Verdana, sans-serif;
-    font-size: 0.8em;
-}
-
-#main td.numeric_odd
-{
-    text-align: right;
-    color: #000;
-    background-color: #eef;
-}
-
-#main td.numeric_even
-{
-    text-align: right;
-    color: #000;    
-    background-color: #fff;
-}
-
-#main td.label_odd
-{
-    color: #000;
-    background-color: #dde;
-}
-
-#main td.label_even
-{
-    color: #000;
-    background-color: #eee;
-}
-
-#main th.label
-{
-    font-family: 'Trebuchet MS', Verdana, sans-serif;
-    font-size: 1em;
-    font-weight: bold;
-    color: #000;    
-    background-color: #dde;
-}
-
-#main caption
-{
-    font-family: 'Trebuchet MS', Verdana, sans-serif;
-    font-size: 1.25em;
-    font-weight: bold;
-    padding: 4px;
+    --selection: rgba(141, 158, 143, .28);
 }

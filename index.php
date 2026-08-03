@@ -28,44 +28,141 @@
 
     require "./themes/$style/theme.php";
 
+    $theme_list = array('light', 'dark');
+
+    // config.php files predating the built-in bar chart don't set this
+    if (!isset($graph_format))
+    {
+        $graph_format = 'html';
+    }
+
+
+    function e($str)
+    {
+        return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+    }
+
+
+    //
+    // link back to this script, with the current state as a starting point
+    //
+    function page_link($params = array())
+    {
+        global $script, $iface, $page, $graph, $style;
+
+        $query = array_merge(array('if' => $iface, 'page' => $page,
+                                   'graph' => $graph, 'style' => $style), $params);
+
+        $parts = array();
+        foreach ($query as $key => $value)
+        {
+            $parts[] = rawurlencode($key).'='.rawurlencode($value);
+        }
+
+        return e($script.'?'.implode('&', $parts));
+    }
+
+
+    function interface_name($if)
+    {
+        global $iface_title;
+
+        if (isset($iface_title[$if]) && $iface_title[$if] != '')
+        {
+            return $iface_title[$if];
+        }
+
+        return $if;
+    }
+
+
+    //
+    // 'Traffic data for' is used as a small label above the interface name,
+    // so drop the trailing colon some of the translations carry
+    //
+    function head_kicker()
+    {
+        $text = T('Traffic data for');
+        $label = preg_replace('/[:\x{ff1a}]\s*$/u', '', $text);
+
+        return ($label === null) ? $text : $label;
+    }
+
+
+    //
+    // name of the period a page shows
+    //
+    function view_title($pg)
+    {
+        switch ($pg)
+        {
+            case 'h': return T('Last 24 hours');
+            case 'd': return T('Last 30 days');
+            case 'm': return T('Last 12 months');
+        }
+
+        return T('Summary');
+    }
+
+
     function write_side_bar()
     {
-        global $iface, $page, $graph, $script, $style;
-        global $iface_list, $iface_title;
-        global $page_list, $page_title;
+        global $iface, $page, $style, $theme_list;
+        global $iface_list, $page_list, $page_title;
 
-        $p = "&amp;graph=$graph&amp;style=$style";
+        print "<div class=\"brand\">\n";
+        print "<div class=\"brand-name\">vnStat</div>\n";
+        print "<div class=\"brand-sub\">".e(T('Traffic statistics'))."</div>\n";
+        print "</div>\n";
 
         print "<ul class=\"iface\">\n";
         foreach ($iface_list as $if)
         {
-            if ($iface == $if) {
-                print "<li class=\"iface active\">";
-            } else {
-                print "<li class=\"iface\">";
-            }
-            print "<a href=\"$script?if=$if$p\">";
-            if (isset($iface_title[$if]))
+            $active = ($if == $iface);
+            $name = interface_name($if);
+
+            print $active ? "<li class=\"iface active\">" : "<li class=\"iface\">";
+            print "<a class=\"iface-link\" href=\"".page_link(array('if' => $if))."\">";
+            print "<span class=\"iface-name\">".e($name)."</span>";
+            if ($name != $if)
             {
-                print $iface_title[$if];
+                print "<span class=\"iface-id\">".e($if)."</span>";
             }
-            else
+            print "</a>\n";
+
+            if ($active)
             {
-                print $if;
+                print "<ul class=\"page\">\n";
+                foreach ($page_list as $pg)
+                {
+                    $class = ($pg == $page) ? 'page-link current' : 'page-link';
+                    print "<li class=\"page\"><a class=\"$class\" href=\"".page_link(array('if' => $if, 'page' => $pg))."\">";
+                    print e($page_title[$pg])."</a></li>\n";
+                }
+                print "</ul>\n";
             }
-            print "</a>";
-            print "<ul class=\"page\">\n";
-            foreach ($page_list as $pg)
-            {
-                print "<li class=\"page\"><a href=\"$script?if=$if$p&amp;page=$pg\">".$page_title[$pg]."</a></li>\n";
-            }
-            print "</ul></li>\n";
+            print "</li>\n";
         }
         print "</ul>\n";
+
+        print "<div class=\"appearance\">\n";
+        print "<span class=\"appearance-label\">".e(T('Appearance'))."</span>\n";
+        print "<div class=\"switch\">\n";
+        foreach ($theme_list as $theme)
+        {
+            $class = ($theme == $style) ? 'switch-opt on' : 'switch-opt';
+            $label = ($theme == 'dark') ? T('Dark') : T('Light');
+            print "<a class=\"$class\" href=\"".page_link(array('style' => $theme))."\">".e($label)."</a>\n";
+        }
+        print "</div>\n";
+        print "</div>\n";
     }
 
 
-    function kbytes_to_string($kb)
+    //
+    // split a value in KiB into a formatted number and its unit
+    //
+    function kbytes_split($kb)
     {
 
         global $byte_notation;
@@ -86,79 +183,243 @@
             }
         }
 
-        return sprintf("%0.2f %s", ($kb/$scale),$units[$ui]);
+        return array(sprintf("%0.2f", $kb/$scale), $units[$ui]);
     }
 
-    function write_summary()
+
+    function kbytes_to_string($kb)
     {
-        global $summary,$top,$day,$hour,$month;
+        $value = kbytes_split($kb);
 
-        $trx = $summary['totalrx']*1024+$summary['totalrxk'];
-        $ttx = $summary['totaltx']*1024+$summary['totaltxk'];
+        return $value[0].' '.$value[1];
+    }
 
-        //
-        // build array for write_data_table
-        //
 
-        $sum = array();
+    function write_summary_cards()
+    {
+        global $summary,$day,$hour,$month;
 
-        if (count($day) > 0 && count($hour) > 0 && count($month) > 0) {
-            $sum[0]['act'] = 1;
-            $sum[0]['label'] = T('This hour');
-            $sum[0]['rx'] = $hour[0]['rx'];
-            $sum[0]['tx'] = $hour[0]['tx'];
+        $cards = array();
 
-            $sum[1]['act'] = 1;
-            $sum[1]['label'] = T('This day');
-            $sum[1]['rx'] = $day[0]['rx'];
-            $sum[1]['tx'] = $day[0]['tx'];
-
-            $sum[2]['act'] = 1;
-            $sum[2]['label'] = T('This month');
-            $sum[2]['rx'] = $month[0]['rx'];
-            $sum[2]['tx'] = $month[0]['tx'];
-
-            $sum[3]['act'] = 1;
-            $sum[3]['label'] = T('All time');
-            $sum[3]['rx'] = $trx;
-            $sum[3]['tx'] = $ttx;
+        if (count($hour) > 0)
+        {
+            $cards[] = array('label' => T('This hour'), 'rx' => $hour[0]['rx'], 'tx' => $hour[0]['tx']);
+        }
+        if (count($day) > 0)
+        {
+            $cards[] = array('label' => T('This day'), 'rx' => $day[0]['rx'], 'tx' => $day[0]['tx']);
+        }
+        if (count($month) > 0)
+        {
+            $cards[] = array('label' => T('This month'), 'rx' => $month[0]['rx'], 'tx' => $month[0]['tx']);
+        }
+        if (isset($summary['totalrx']))
+        {
+            $cards[] = array('label' => T('All time'),
+                             'rx' => $summary['totalrx']*1024+$summary['totalrxk'],
+                             'tx' => $summary['totaltx']*1024+$summary['totaltxk']);
         }
 
-        write_data_table(T('Summary'), $sum);
-        print "<br/>\n";
-        write_data_table(T('Top 10 days'), $top);
+        if (count($cards) == 0)
+        {
+            return;
+        }
+
+        print "<section class=\"summary\">\n<div class=\"cards\">\n";
+        foreach ($cards as $card)
+        {
+            $total = kbytes_split($card['rx'] + $card['tx']);
+
+            print "<div class=\"card\">\n";
+            print "<div class=\"card-label\">".e($card['label'])."</div>\n";
+            print "<div class=\"card-value num\">";
+            print "<span class=\"card-num\">".e($total[0])."</span>";
+            print "<span class=\"card-unit\">".e($total[1])."</span>";
+            print "</div>\n";
+            print "<div class=\"card-split\">\n";
+            print "<div class=\"card-split-row\"><span class=\"dir\"><i class=\"dot rx\"></i>".e(T('In'))."</span>";
+            print "<span class=\"val num\">".e(kbytes_to_string($card['rx']))."</span></div>\n";
+            print "<div class=\"card-split-row\"><span class=\"dir\"><i class=\"dot tx\"></i>".e(T('Out'))."</span>";
+            print "<span class=\"val num\">".e(kbytes_to_string($card['tx']))."</span></div>\n";
+            print "</div>\n";
+            print "</div>\n";
+        }
+        print "</div>\n</section>\n";
     }
 
 
-    function write_data_table($caption, $tab)
+    //
+    // pick a round top value for the graph, together with the unit and the
+    // divider needed to get there from KiB
+    //
+    function graph_scale($peak)
     {
-        print "<table width=\"100%\" cellspacing=\"0\">\n";
-        print "<caption>$caption</caption>\n";
-        print "<tr>";
-        print "<th class=\"label\" style=\"width:120px;\">&nbsp;</th>";
-        print "<th class=\"label\">".T('In')."</th>";
-        print "<th class=\"label\">".T('Out')."</th>";
-        print "<th class=\"label\">".T('Total')."</th>";
-        print "</tr>\n";
+        $units = array('KiB','MiB','GiB','TiB');
 
+        if ($peak <= 0)
+        {
+            return array('max' => 1, 'unit' => $units[0], 'div' => 1);
+        }
+
+        $div = 1;
+        $ui = 0;
+        while ((($peak / $div) >= 1024) && ($ui < 3))
+        {
+            $div = $div * 1024;
+            $ui++;
+        }
+
+        $scaled = $peak / $div;
+        $magnitude = pow(10, floor(log10($scaled)));
+
+        $step = 10;
+        foreach (array(1, 2, 2.5, 5, 10) as $candidate)
+        {
+            if (($scaled / ($candidate * $magnitude)) <= 5)
+            {
+                $step = $candidate;
+                break;
+            }
+        }
+
+        $step = $step * $magnitude;
+
+        return array('max' => ceil($scaled / $step) * $step, 'unit' => $units[$ui], 'div' => $div);
+    }
+
+
+    function compare_time($a, $b)
+    {
+        if ($a['time'] == $b['time'])
+        {
+            return 0;
+        }
+
+        return ($a['time'] < $b['time']) ? -1 : 1;
+    }
+
+
+    function write_graph($data)
+    {
+        $y_ticks = 5;
+
+        $bars = $data;
+        usort($bars, 'compare_time');
+
+        $peak = 0;
+        foreach ($bars as $bar)
+        {
+            $peak = max($peak, $bar['rx'], $bar['tx']);
+        }
+
+        $scale = graph_scale($peak);
+        $top = $scale['max'] * $scale['div'];
+
+        print "<div class=\"chart\">\n";
+        for ($i = 0; $i <= $y_ticks; $i++)
+        {
+            $value = ($scale['max'] / $y_ticks) * $i;
+            $label = (fmod($value, 1) == 0) ? (string)(int)$value : sprintf('%.1f', $value);
+            printf("<div class=\"chart-grid\" style=\"top: %.4f%%\"><span class=\"num\">%s</span></div>\n",
+                   (1 - $i / $y_ticks) * 100, e($label.' '.$scale['unit']));
+        }
+
+        print "<div class=\"chart-cols\">";
+        foreach ($bars as $bar)
+        {
+            $title = $bar['label'].' · '.T('In').' '.kbytes_to_string($bar['rx']).
+                     ' · '.T('Out').' '.kbytes_to_string($bar['tx']);
+
+            printf("<div class=\"chart-col\" title=\"%s\">", e($title));
+            printf("<i class=\"rx\" style=\"height: %.3f%%\"></i>", max(0.4, ($bar['rx'] / $top) * 100));
+            printf("<i class=\"tx\" style=\"height: %.3f%%\"></i>", max(0.4, ($bar['tx'] / $top) * 100));
+            print "</div>";
+        }
+        print "</div>\n";
+        print "</div>\n";
+
+        print "<div class=\"chart-axis\"></div>\n";
+        print "<div class=\"chart-labels\">";
+        foreach ($bars as $bar)
+        {
+            print "<span class=\"num\">".e($bar['img_label'])."</span>";
+        }
+        print "</div>\n";
+    }
+
+
+    function write_graph_section($data)
+    {
+        global $iface, $page, $style, $graph, $graph_format;
+
+        print "<section class=\"graph\">\n";
+        print "<div class=\"section-head\">\n";
+        print "<h2 class=\"section-title\">".e(sprintf(T('%s traffic'), view_title($page)))."</h2>\n";
+
+        if ($graph_format != 'svg' && $graph_format != 'png')
+        {
+            print "<div class=\"legend\">";
+            print "<span><i class=\"swatch rx\"></i>".e(T('In'))."</span>";
+            print "<span><i class=\"swatch tx\"></i>".e(T('Out'))."</span>";
+            print "</div>\n";
+        }
+        print "</div>\n";
+
+        $params = "if=".rawurlencode($iface)."&amp;page=".rawurlencode($page).
+                  "&amp;style=".rawurlencode($style)."&amp;graph=".rawurlencode($graph);
+
+        if ($graph_format == 'svg')
+        {
+            print "<div class=\"chart-image\"><object type=\"image/svg+xml\" width=\"692\" height=\"297\" data=\"graph_svg.php?$params\"></object></div>\n";
+        }
+        else if ($graph_format == 'png')
+        {
+            print "<div class=\"chart-image\"><img src=\"graph.php?$params\" alt=\"graph\"/></div>\n";
+        }
+        else
+        {
+            write_graph($data);
+        }
+
+        print "</section>\n";
+    }
+
+
+    function write_data_table($caption, $tab, $ranked = false)
+    {
+        print "<section class=\"table\">\n";
+        print "<h2 class=\"section-title\">".e($caption)."</h2>\n";
+        print $ranked ? "<table class=\"data top\">\n" : "<table class=\"data\">\n";
+        print "<thead><tr>";
+        if ($ranked)
+        {
+            print "<th class=\"rank\"></th>";
+        }
+        print "<th class=\"label\"></th>";
+        print "<th class=\"numeric\">".e(T('In'))."</th>";
+        print "<th class=\"numeric\">".e(T('Out'))."</th>";
+        print "<th class=\"numeric\">".e(T('Total'))."</th>";
+        print "</tr></thead>\n<tbody>\n";
+
+        $rank = 0;
         for ($i=0; $i<count($tab); $i++)
         {
             if ($tab[$i]['act'] == 1)
             {
-                $t = $tab[$i]['label'];
-                $rx = kbytes_to_string($tab[$i]['rx']);
-                $tx = kbytes_to_string($tab[$i]['tx']);
-                $total = kbytes_to_string($tab[$i]['rx']+$tab[$i]['tx']);
-                $id = ($i & 1) ? 'odd' : 'even';
+                $rank++;
                 print "<tr>";
-                print "<td class=\"label_$id\">$t</td>";
-                print "<td class=\"numeric_$id\">$rx</td>";
-                print "<td class=\"numeric_$id\">$tx</td>";
-                print "<td class=\"numeric_$id\">$total</td>";
+                if ($ranked)
+                {
+                    printf("<td class=\"rank num\">%02d</td>", $rank);
+                }
+                print "<td class=\"label\">".e($tab[$i]['label'])."</td>";
+                print "<td class=\"numeric num\">".e(kbytes_to_string($tab[$i]['rx']))."</td>";
+                print "<td class=\"numeric num\">".e(kbytes_to_string($tab[$i]['tx']))."</td>";
+                print "<td class=\"numeric num\">".e(kbytes_to_string($tab[$i]['rx']+$tab[$i]['tx']))."</td>";
                 print "</tr>\n";
              }
         }
-        print "</table>\n";
+        print "</tbody>\n</table>\n</section>\n";
     }
 
     get_vnstat_data();
@@ -167,50 +428,56 @@
     // html start
     //
     header('Content-type: text/html; charset=utf-8');
-    print '<?xml version="1.0"?>';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>vnStat - PHP frontend</title>
-  <link rel="stylesheet" type="text/css" href="themes/<?php echo $style ?>/style.css"/>
+  <link rel="stylesheet" type="text/css" href="fonts/fonts.css"/>
+  <link rel="stylesheet" type="text/css" href="themes/<?php echo e($style) ?>/style.css"/>
 </head>
 <body>
 
 <div id="wrap">
-  <div id="sidebar"><?php write_side_bar(); ?></div>
-   <div id="content">
-    <div id="header"><?php print T('Traffic data for').(isset($iface_title[$iface]) ? $iface_title[$iface] : '')." ($iface)";?></div>
-    <div id="main">
-    <?php
-    $graph_params = "if=$iface&amp;page=$page&amp;style=$style";
-    if ($page != 's')
-        if ($graph_format == 'svg') {
-	     print "<object type=\"image/svg+xml\" width=\"692\" height=\"297\" data=\"graph_svg.php?$graph_params\"></object>\n";
-        } else {
-	     print "<img src=\"graph.php?$graph_params\" alt=\"graph\"/>\n";
-        }
-
+  <aside id="sidebar"><?php write_side_bar(); ?></aside>
+  <main id="content">
+    <header id="header">
+      <div class="head-main">
+        <div class="head-kicker"><?php print e(head_kicker()); ?></div>
+        <h1><?php print e(interface_name($iface));
+                  if (interface_name($iface) != $iface) { ?> <span class="iface-id">(<?php print e($iface); ?>)</span><?php } ?></h1>
+      </div>
+      <div class="head-meta">
+        <div><?php print e(view_title($page)); ?></div>
+<?php   if (isset($summary['updated'])) { ?>
+        <div class="head-updated num"><?php print e(T('Updated').' '.date('Y-m-d H:i', $summary['updated'])); ?></div>
+<?php   } ?>
+      </div>
+    </header>
+<?php
     if ($page == 's')
     {
-        write_summary();
+        write_summary_cards();
+        write_data_table(T('Top 10 days'), $top, true);
     }
-    else if ($page == 'h')
+    else
     {
-        write_data_table(T('Last 24 hours'), $hour);
+        $data = ($page == 'h') ? $hour : (($page == 'd') ? $day : $month);
+
+        if ($graph != 'none')
+        {
+            write_graph_section($data);
+        }
+        write_data_table(view_title($page), $data);
     }
-    else if ($page == 'd')
-    {
-        write_data_table(T('Last 30 days'), $day);
-    }
-    else if ($page == 'm')
-    {
-        write_data_table(T('Last 12 months'), $month);
-    }
-    ?>
-    </div>
-    <div id="footer"><a href="http://www.sqweek.com/">vnStat PHP frontend</a> 2.0.0 - &copy;2006-2011 Bjorge Dijkstra (bjd _at_ jooz.net)</div>
-  </div>
+?>
+    <footer id="footer">
+      <span><a href="http://www.sqweek.com/">vnStat PHP frontend</a> 2.0.0</span>
+      <span>&copy; 2006&#8211;2011 Bjorge Dijkstra (bjd _at_ jooz.net)</span>
+    </footer>
+  </main>
 </div>
 
 </body></html>

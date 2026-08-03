@@ -60,8 +60,11 @@
     $vnstat_bin = '/usr/bin/vnstat';
     $data_dir = './dumps';
 
-    // graphics format to use: svg or png
-    $graph_format='svg';
+    // graph to show on the hour/day/month pages:
+    //   html - the bar chart drawn by index.php itself (matches the theme)
+    //   svg  - the drawn image from graph_svg.php
+    //   png  - the drawn image from graph.php (needs php-gd)
+    $graph_format='html';
 
     // preferred byte notation. null auto chooses. otherwise use one of
     // 'TB','GB','MB','KB'
@@ -73,7 +76,7 @@
     // Font to use for SVG graphs
     define('SVG_FONT', 'Verdana');
 
-    // Default theme
+    // Default theme, one of the directories in themes/ ('light' or 'dark')
     define('DEFAULT_COLORSCHEME', 'light');
     
     // SVG Depth scaling factor

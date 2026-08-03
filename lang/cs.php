@@ -29,6 +29,14 @@ $L['Traffic data for'] = 'Přehled pro';
 $L['bytes in'] = 'bytů staženo';
 $L['bytes out'] = 'bytů odesláno';
 
+// interface labels
+$L['Traffic statistics'] = 'Statistiky provozu';
+$L['Appearance'] = 'Vzhled';
+$L['Light'] = 'Světlý';
+$L['Dark'] = 'Tmavý';
+$L['Updated'] = 'Aktualizováno';
+$L['%s traffic'] = 'Provoz %s';
+
 // date formats
 $L['datefmt_days'] = '%d. %B';
 $L['datefmt_days_img'] = '%d';

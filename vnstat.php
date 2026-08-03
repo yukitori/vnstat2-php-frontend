@@ -226,5 +226,16 @@
         $summary['totalrxk'] = 0;
         $summary['totaltxk'] = 0;
         $summary['interface'] = $iface_data['name'];
+
+        // moment the interface data was last updated by vnstat
+        $summary['updated'] = null;
+        if (isset($iface_data['updated']['date']))
+        {
+            $u = $iface_data['updated'];
+            $summary['updated'] = mktime(isset($u['time']['hour']) ? $u['time']['hour'] : 0,
+                                         isset($u['time']['minute']) ? $u['time']['minute'] : 0,
+                                         0,
+                                         $u['date']['month'], $u['date']['day'], $u['date']['year']);
+        }
     }
 ?>
