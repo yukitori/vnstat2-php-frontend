@@ -12,6 +12,8 @@ For updates to this script check http://www.sqweek.com
 - vnstat setup and collecting data
 - webserver with PHP
 - php-gd extension installed for PNG graphs
+- php-intl extension for month and weekday names in the language of the
+  locale set in config.php (optional, without it they stay in english)
 
 
 2. INSTALL

@@ -162,8 +162,8 @@
             $day[$i]['act'] = 1;
 
             if($use_label) {
-                $day[$i]['label'] = strftime(T('datefmt_days'), $ts);
-                $day[$i]['img_label'] = strftime(T('datefmt_days_img'), $ts);
+                $day[$i]['label'] = format_time(T('datefmt_days'), $ts);
+                $day[$i]['img_label'] = format_time(T('datefmt_days_img'), $ts);
             }
         }
 
@@ -179,8 +179,8 @@
             $month[$i]['act'] = 1;
 
             if($use_label) {
-                $month[$i]['label'] = strftime(T('datefmt_months'), $ts);
-                $month[$i]['img_label'] = strftime(T('datefmt_months_img'), $ts);
+                $month[$i]['label'] = format_time(T('datefmt_months'), $ts);
+                $month[$i]['img_label'] = format_time(T('datefmt_months_img'), $ts);
             }
         }
 
@@ -196,8 +196,8 @@
             $hour[$i]['act'] = 1;
 
             if($use_label) {
-                $hour[$i]['label'] = strftime(T('datefmt_hours'), $ts);
-                $hour[$i]['img_label'] = strftime(T('datefmt_hours_img'), $ts);
+                $hour[$i]['label'] = format_time(T('datefmt_hours'), $ts);
+                $hour[$i]['img_label'] = format_time(T('datefmt_hours_img'), $ts);
             }
         }
 
@@ -213,7 +213,7 @@
             $top[$i]['act'] = 1;
 
             if($use_label) {
-                $top[$i]['label'] = strftime(T('datefmt_top'), $ts);
+                $top[$i]['label'] = format_time(T('datefmt_top'), $ts);
                 $top[$i]['img_label'] = '';
             }
         }
