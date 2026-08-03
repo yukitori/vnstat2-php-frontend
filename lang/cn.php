@@ -38,7 +38,7 @@ $L['Updated'] = '更新于';
 $L['%s traffic'] = '%s流量';
 
 // date formats
-$L['datefmt_days'] = '%B%d日';
+$L['datefmt_days'] = '%m月%d日';
 $L['datefmt_days_img'] = '%d';
 $L['datefmt_months'] = '%Y年%B';
 $L['datefmt_months_img'] = '%b';
