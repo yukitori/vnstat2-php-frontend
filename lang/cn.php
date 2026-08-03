@@ -40,7 +40,7 @@ $L['%s traffic'] = '%s流量';
 // date formats
 $L['datefmt_days'] = '%-m月%-d日';
 $L['datefmt_days_img'] = '%d';
-$L['datefmt_months'] = '%Y年%B';
+$L['datefmt_months'] = '%Y年%-m月';
 $L['datefmt_months_img'] = '%b';
 $L['datefmt_hours'] = '%H:00';
 $L['datefmt_hours_img'] = '%H';
