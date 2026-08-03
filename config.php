@@ -31,10 +31,11 @@
     $language = 'nl';
 
     // Set local timezone
-    date_default_timezone_set("Europe/Amsterdam");
+    date_default_timezone_set("Asia/Shanghai");
 
     // list of network interfaces monitored by vnStat
-    $iface_list = array('eth0', 'sixxs');
+    //$iface_list = array('eth0', 'sixxs');
+    $iface_list = array('eth0');
 
     //
     // optional names for interfaces
@@ -42,7 +43,7 @@
     // will be displayed instead
     //
     $iface_title['eth0'] = 'Internal';
-    $iface_title['sixxs'] = 'SixXS IPv6';
+    //$iface_title['sixxs'] = 'SixXS IPv6';
 
     //
     // There are two possible sources for vnstat data. If the $vnstat_bin
