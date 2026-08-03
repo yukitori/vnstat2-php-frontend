@@ -27,7 +27,7 @@
     //
     // edit these to reflect your particular situation
     //
-    $locale = 'en_US.UTF-8';
+    $locale = 'zh_CN.UTF-8';
     $language = 'cn';
 
     // Set local timezone
